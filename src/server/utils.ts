@@ -4,9 +4,9 @@ import { surveyData } from "./db/schema";
 import { getODKToken } from "./services/odk/auth";
 import { handleAttachment } from "./services/attachment/handler";
 import { ODKConfig } from "./services/types";
-import { handleBuildingFlow } from "./services/sync/building/building";
-import { handleBusinessFlow } from "./services/sync/business/business";
-import { handleFamilyFlow } from "./services/sync/family/family";
+// import { handleBuildingFlow } from "./services/sync/building/building";
+// import { handleBusinessFlow } from "./services/sync/business/business";
+// import { handleFamilyFlow } from "./services/sync/family/family";
 
 export const fetchSurveySubmissions = async (
   {
@@ -98,18 +98,18 @@ export const fetchSurveySubmissions = async (
         }
       }
 
-      switch (formId) {
-        case "lungri_building_survey":
-          handleBuildingFlow(submission, ctx);
-          break;
-        case "lungri_business_survey":
-          handleBusinessFlow(submission, ctx);
-          break;
-        case "lungri_family_survey":
-          handleFamilyFlow(submission, ctx);
-        default:
-          console.log("No handler found for form ID:", formId);
-      }
+      // switch (formId) {
+      //   case "lungri_building_survey":
+      //     handleBuildingFlow(submission, ctx);
+      //     break;
+      //   case "lungri_business_survey":
+      //     handleBusinessFlow(submission, ctx);
+      //     break;
+      //   case "lungri_family_survey":
+      //     handleFamilyFlow(submission, ctx);
+      //   default:
+      //     console.log("No handler found for form ID:", formId);
+      // }
     }
   } catch (error) {
     console.log(error);

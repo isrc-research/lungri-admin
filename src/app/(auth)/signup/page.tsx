@@ -35,7 +35,7 @@ import {
   Sparkles,
 } from "lucide-react";
 
-export function Signup() {
+export default async function Signup() {
   const [state, formAction] = useFormState(signup, null);
 
   const wards = [
@@ -307,5 +307,3 @@ export function Signup() {
     </div>
   );
 }
-
-export default Signup;
