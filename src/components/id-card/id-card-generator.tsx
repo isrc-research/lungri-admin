@@ -62,6 +62,19 @@ export function IdCardGenerator({ userId, className }: IdCardGeneratorProps) {
 
       let svgContent = await response.text();
 
+      // svgContent = svgContent.replace(
+      //   /id="namePlaceholder"/g,
+      //   details.nepaliName || "",
+      // );
+      // svgContent = svgContent.replace(
+      //   /id="addressPlaceholder"/g,
+      //   details.nepaliAddress || "",
+      // );
+      // svgContent = svgContent.replace(
+      //   /id="phonePlaceholder"/g,
+      //   details.nepaliPhone || "",
+      // );
+
       // Replace placeholders with actual data
       svgContent = svgContent.replace(/@नाम/g, details.nepaliName || "");
       svgContent = svgContent.replace(/@ठेगाना/g, details.nepaliAddress || "");
