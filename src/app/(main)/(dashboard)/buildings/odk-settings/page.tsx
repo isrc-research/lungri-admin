@@ -30,7 +30,7 @@ const EditFormPage = ({ params }: { params: { id: string } }) => {
         </div>
       }
     >
-      <ODKResourcesForm formId={"kerabari_building_survey"} />
+      <ODKResourcesForm formId={"lungri_building_survey"} />
     </ContentLayout>
   );
 };

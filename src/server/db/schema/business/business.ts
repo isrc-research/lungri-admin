@@ -12,7 +12,7 @@ import { geometry } from "../../geographical";
 import { areas, users, wards } from "../basic";
 import { buildingTokens } from "../building";
 
-export const stagingBusiness = pgTable("staging_kerabari_business", {
+export const stagingBusiness = pgTable("staging_lungri_business", {
   id: varchar("id", { length: 48 }).primaryKey(),
   // Enumerator Information
   enumeratorName: varchar("enumerator_name", { length: 255 }),
@@ -133,7 +133,7 @@ export const businessStatusEnum = pgEnum("business_status_enum", [
   "rejected",
 ]);
 
-export const business = pgTable("kerabari_business", {
+export const business = pgTable("lungri_business", {
   id: varchar("id", { length: 48 }).primaryKey(),
   //  id: text("id").primaryKey(),
   // Enumerator Information
@@ -270,7 +270,7 @@ export const business = pgTable("kerabari_business", {
 
 // Table for building edit requests
 export const businessEditRequests = pgTable(
-  "kerabari_business_edit_requests",
+  "lungri_business_edit_requests",
   {
     id: varchar("id", { length: 48 }).primaryKey(),
     businessId: varchar("business_id", { length: 48 }).references(
@@ -286,7 +286,7 @@ export type BusinessEditRequest = typeof businessEditRequests.$inferSelect;
 export type StagingBusiness = typeof stagingBusiness.$inferSelect;
 export type BusinessSchema = typeof business.$inferSelect;
 
-export const businessWithUpdatedNames = pgTable("kerabari_business_with_updated_names", {
+export const businessWithUpdatedNames = pgTable("lungri_business_with_updated_names", {
   id: varchar("id", { length: 48 }),
   enumeratorName: varchar("enumerator_name", { length: 255 }),
   mainEnumeratorName: varchar("main_enumerator_name", { length: 255 }),

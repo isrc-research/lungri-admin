@@ -1,4 +1,4 @@
-import { kerabariAnimalProduct } from "@/server/db/schema/family/animal-products";
+import { lungriAnimalProduct } from "@/server/db/schema/family/animal-products";
 import { Card } from "@/components/ui/card";
 import {
   CircleDollarSign,
@@ -16,7 +16,7 @@ import {
 } from "@/components/ui/accordion";
 
 interface AnimalProductsSectionProps {
-  products?: kerabariAnimalProduct[] | null;
+  products?: lungriAnimalProduct[] | null;
 }
 
 const productIcons: Record<string, any> = {
@@ -25,7 +25,7 @@ const productIcons: Record<string, any> = {
   other: Bird,
 };
 
-function ProductCard({ product }: { product: kerabariAnimalProduct }) {
+function ProductCard({ product }: { product: lungriAnimalProduct }) {
   const IconComponent =
     productIcons[product.animalProductName?.toLowerCase() ?? ""] || Bird;
 

@@ -1,7 +1,7 @@
 import { pgTable, varchar, integer, decimal } from "drizzle-orm/pg-core";
 import { family } from "./family";
 
-export const stagingkerabariCrop = pgTable("staging_kerabari_crop", {
+export const staginglungriCrop = pgTable("staging_lungri_crop", {
   id: varchar("id", { length: 48 }).primaryKey().notNull(),
   familyId: varchar("family_id", { length: 48 }).notNull(),
   wardNo: integer("ward_no").notNull(),
@@ -14,7 +14,7 @@ export const stagingkerabariCrop = pgTable("staging_kerabari_crop", {
   cropRevenue: decimal("crop_revenue", { precision: 10, scale: 2 }),
 });
 
-export const kerabariCrop = pgTable("kerabari_crop", {
+export const lungriCrop = pgTable("lungri_crop", {
   id: varchar("id", { length: 48 }).primaryKey().notNull(),
   familyId: varchar("family_id", { length: 48 }).references(() => family.id),
   wardNo: integer("ward_no").notNull(),
@@ -27,6 +27,6 @@ export const kerabariCrop = pgTable("kerabari_crop", {
   cropRevenue: decimal("crop_revenue", { precision: 10, scale: 2 }),
 });
 
-export type kerabariCrop = typeof kerabariCrop.$inferSelect;
-export type StagingkerabariCrop =
-  typeof stagingkerabariCrop.$inferSelect;
+export type lungriCrop = typeof lungriCrop.$inferSelect;
+export type StaginglungriCrop =
+  typeof staginglungriCrop.$inferSelect;

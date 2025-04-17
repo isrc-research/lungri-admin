@@ -1,4 +1,4 @@
-import { RawBuildingData } from "../parser/kerabari/parse-buildings";
+import { RawBuildingData } from "../parser/lungri/parse-buildings";
 import { decodeSingleChoice, decodeMultipleChoices } from "./utils";
 
 export const buildingChoices = {

@@ -1,6 +1,6 @@
 import { Card } from "@/components/ui/card";
-import { kerabariAgriculturalLand } from "@/server/db/schema/family/agricultural-lands";
-import { kerabariCrop } from "@/server/db/schema/family/crops";
+import { lungriAgriculturalLand } from "@/server/db/schema/family/agricultural-lands";
+import { lungriCrop } from "@/server/db/schema/family/crops";
 import {
   Sprout,
   Droplets,
@@ -15,8 +15,8 @@ import { Progress } from "@/components/ui/progress";
 import { cn } from "@/lib/utils";
 
 interface AgriculturalDetailsSectionProps {
-  lands?: kerabariAgriculturalLand[] | null;
-  crops?: kerabariCrop[] | null;
+  lands?: lungriAgriculturalLand[] | null;
+  crops?: lungriCrop[] | null;
 }
 
 export function AgriculturalDetailsSection({

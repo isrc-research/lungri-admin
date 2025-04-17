@@ -1,5 +1,5 @@
 import { Card } from "@/components/ui/card";
-import { kerabariAgriculturalLand } from "@/server/db/schema/family/agricultural-lands";
+import { lungriAgriculturalLand } from "@/server/db/schema/family/agricultural-lands";
 import { Grape, Ruler, CircleDollarSign, Droplets } from "lucide-react";
 import {
   Accordion,
@@ -9,10 +9,10 @@ import {
 } from "@/components/ui/accordion";
 
 interface AgriculturalSectionProps {
-  lands?: kerabariAgriculturalLand[] | null;
+  lands?: lungriAgriculturalLand[] | null;
 }
 
-function LandCard({ land }: { land: kerabariAgriculturalLand }) {
+function LandCard({ land }: { land: lungriAgriculturalLand }) {
   return (
     <div className="rounded-lg border bg-card p-4 shadow-sm transition-all hover:shadow-md">
       <div className="mb-3 flex items-center gap-2">

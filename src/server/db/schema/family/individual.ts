@@ -1,8 +1,8 @@
 import { pgTable, varchar, integer } from "drizzle-orm/pg-core";
 import { family } from "./family";
 
-export const stagingkerabariIndividual = pgTable(
-  "staging_kerabari_individual",
+export const staginglungriIndividual = pgTable(
+  "staging_lungri_individual",
   {
     // Primary Keys and Basic Info
     id: varchar("id", { length: 48 }).primaryKey().notNull(),
@@ -102,7 +102,7 @@ export const stagingkerabariIndividual = pgTable(
 );
 
 // The main table can use the same structure with reference to family
-export const kerabariIndividual = pgTable("kerabari_individual", {
+export const lungriIndividual = pgTable("lungri_individual", {
   // [Same fields as above but with family reference]
   id: varchar("id", { length: 48 }).primaryKey().notNull(),
   familyId: varchar("family_id", { length: 48 }).references(() => family.id),
@@ -203,6 +203,6 @@ export const kerabariIndividual = pgTable("kerabari_individual", {
   workAvailability: varchar("work_availability", { length: 100 }),
 });
 
-export type kerabariIndividual = typeof kerabariIndividual.$inferSelect;
-export type StagingkerabariIndividual =
-  typeof stagingkerabariIndividual.$inferSelect;
+export type lungriIndividual = typeof lungriIndividual.$inferSelect;
+export type StaginglungriIndividual =
+  typeof staginglungriIndividual.$inferSelect;

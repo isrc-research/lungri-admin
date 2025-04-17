@@ -275,8 +275,8 @@ async function performBuildingSync(ctx: any, recordId: string) {
     await ctx.db
       .insert(stagingToProduction)
       .values({
-        staging_table: "staging_kerabari_buildings",
-        production_table: "kerabari_buildings",
+        staging_table: "staging_lungri_buildings",
+        production_table: "lungri_buildings",
         recordId: recordId,
       })
       .onConflictDoNothing();

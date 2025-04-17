@@ -15,8 +15,8 @@ export const metadata: Metadata = {
         ? `https://${process.env.VERCEL_URL}`
         : `http://localhost:${process.env.PORT || 3000}`,
   ),
-  title: "Kerabari Rural Municipality",
-  description: "Kerabari Rural Municipality Survey Tracking Mechanism",
+  title: "lungri Rural Municipality",
+  description: "lungri Rural Municipality Survey Tracking Mechanism",
   alternates: {
     canonical: "/",
   },

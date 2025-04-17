@@ -1,4 +1,4 @@
-import { parseAndInsertInStaging } from "@/lib/parser/kerabari/family/main";
+import { parseAndInsertInStaging } from "@/lib/parser/lungri/family/main";
 import { stagingToProduction } from "@/server/db/schema";
 import { eq } from "drizzle-orm";
 import { syncFamilySurvey } from "./sync";

@@ -8,29 +8,29 @@ import {
 } from "../../../db/schema";
 import { family, stagingFamily } from "@/server/db/schema/family/family";
 import {
-  stagingkerabariIndividual,
-  kerabariIndividual,
+  staginglungriIndividual,
+  lungriIndividual,
 } from "@/server/db/schema/family/individual";
 import {
-  stagingkerabariDeath,
-  kerabariDeath,
+  staginglungriDeath,
+  lungriDeath,
 } from "@/server/db/schema/family/deaths";
 import {
-  stagingkerabariCrop,
-  kerabariCrop,
+  staginglungriCrop,
+  lungriCrop,
 } from "@/server/db/schema/family/crops";
 import {
-  stagingkerabariAnimal,
-  kerabariAnimal,
+  staginglungriAnimal,
+  lungriAnimal,
 } from "@/server/db/schema/family/animals";
 import {
-  stagingkerabariAnimalProduct,
-  kerabariAnimalProduct,
+  staginglungriAnimalProduct,
+  lungriAnimalProduct,
 } from "@/server/db/schema/family/animal-products";
 
-import { StagingkerabariDeath } from "@/server/db/schema/family/deaths";
-import kerabariAgriculturalLand, {
-  stagingkerabariAgriculturalLand,
+import { StaginglungriDeath } from "@/server/db/schema/family/deaths";
+import lungriAgriculturalLand, {
+  staginglungriAgriculturalLand,
 } from "@/server/db/schema/family/agricultural-lands";
 
 export async function syncFamilySurvey(recordId: string, data: any, ctx: any) {
@@ -222,33 +222,33 @@ async function performFamilySync(ctx: any, recordId: string) {
     // Get related data
     const individuals = await ctx.db
       .select()
-      .from(stagingkerabariIndividual)
-      .where(eq(stagingkerabariIndividual.familyId, recordId));
+      .from(staginglungriIndividual)
+      .where(eq(staginglungriIndividual.familyId, recordId));
 
     const agriculturalLands = await ctx.db
       .select()
-      .from(stagingkerabariAgriculturalLand)
-      .where(eq(stagingkerabariAgriculturalLand.familyId, recordId));
+      .from(staginglungriAgriculturalLand)
+      .where(eq(staginglungriAgriculturalLand.familyId, recordId));
 
     const deaths = await ctx.db
       .select()
-      .from(stagingkerabariDeath)
-      .where(eq(stagingkerabariDeath.familyId, recordId));
+      .from(staginglungriDeath)
+      .where(eq(staginglungriDeath.familyId, recordId));
 
     const crops = await ctx.db
       .select()
-      .from(stagingkerabariCrop)
-      .where(eq(stagingkerabariCrop.familyId, recordId));
+      .from(staginglungriCrop)
+      .where(eq(staginglungriCrop.familyId, recordId));
 
     const animals = await ctx.db
       .select()
-      .from(stagingkerabariAnimal)
-      .where(eq(stagingkerabariAnimal.familyId, recordId));
+      .from(staginglungriAnimal)
+      .where(eq(staginglungriAnimal.familyId, recordId));
 
     const animalProducts = await ctx.db
       .select()
-      .from(stagingkerabariAnimalProduct)
-      .where(eq(stagingkerabariAnimalProduct.familyId, recordId));
+      .from(staginglungriAnimalProduct)
+      .where(eq(staginglungriAnimalProduct.familyId, recordId));
 
     // Begin transaction
     await ctx.db.transaction(async (tx: any) => {
@@ -323,7 +323,7 @@ async function performFamilySync(ctx: any, recordId: string) {
       // Insert individuals
       if (individuals.length > 0) {
         await tx
-          .insert(kerabariIndividual)
+          .insert(lungriIndividual)
           .values(individuals)
           .onConflictDoNothing();
       }
@@ -331,9 +331,9 @@ async function performFamilySync(ctx: any, recordId: string) {
       // Insert deaths data into production table
       if (deaths.length > 0) {
         await tx
-          .insert(kerabariDeath)
+          .insert(lungriDeath)
           .values(
-            deaths.map((death: StagingkerabariDeath) => ({
+            deaths.map((death: StaginglungriDeath) => ({
               id: death.id,
               famliyId: death.familyId,
               wardNo: death.wardNo,
@@ -350,13 +350,13 @@ async function performFamilySync(ctx: any, recordId: string) {
 
       // Insert crops
       if (crops.length > 0) {
-        await tx.insert(kerabariCrop).values(crops).onConflictDoNothing();
+        await tx.insert(lungriCrop).values(crops).onConflictDoNothing();
       }
 
       // Insert animals
       if (animals.length > 0) {
         await tx
-          .insert(kerabariAnimal)
+          .insert(lungriAnimal)
           .values(animals)
           .onConflictDoNothing();
       }
@@ -364,7 +364,7 @@ async function performFamilySync(ctx: any, recordId: string) {
       // Insert animal products
       if (animalProducts.length > 0) {
         await tx
-          .insert(kerabariAnimalProduct)
+          .insert(lungriAnimalProduct)
           .values(animalProducts)
           .onConflictDoNothing();
       }
@@ -372,7 +372,7 @@ async function performFamilySync(ctx: any, recordId: string) {
       // Insert agricultural lands
       if (agriculturalLands.length > 0) {
         await tx
-          .insert(kerabariAgriculturalLand)
+          .insert(lungriAgriculturalLand)
           .values(agriculturalLands)
           .onConflictDoNothing();
       }
@@ -381,8 +381,8 @@ async function performFamilySync(ctx: any, recordId: string) {
       await tx
         .insert(stagingToProduction)
         .values({
-          staging_table: "staging_kerabari_family",
-          production_table: "kerabari_family",
+          staging_table: "staging_lungri_family",
+          production_table: "lungri_family",
           recordId: recordId,
         })
         .onConflictDoNothing();

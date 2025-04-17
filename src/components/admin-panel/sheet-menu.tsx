@@ -31,9 +31,7 @@ export function SheetMenu() {
           >
             <Link href="/" className="flex items-center gap-2">
               <PanelsTopLeft className="w-6 h-6 mr-1" />
-              <SheetTitle className="font-bold text-lg">
-                kerabari
-              </SheetTitle>
+              <SheetTitle className="font-bold text-lg">lungri</SheetTitle>
             </Link>
           </Button>
         </SheetHeader>

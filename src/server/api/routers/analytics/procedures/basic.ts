@@ -2,7 +2,7 @@ import { sql } from "drizzle-orm";
 import { z } from "zod";
 import { createTRPCRouter, publicProcedure } from "@/server/api/trpc";
 import { users, areas, surveyData, wards } from "@/server/db/schema/basic";
-import { kerabariIndividual } from "@/server/db/schema/family/individual";
+import { lungriIndividual } from "@/server/db/schema/family/individual";
 import { and, count, eq } from "drizzle-orm";
 import { db } from "@/server/db";
 
@@ -27,16 +27,16 @@ export const getGenderDistribution = publicProcedure
   .query(async ({ ctx, input }) => {
     const query = ctx.db
       .select({
-        gender: kerabariIndividual.gender,
+        gender: lungriIndividual.gender,
         count: sql<number>`count(*)::int`,
       })
-      .from(kerabariIndividual);
+      .from(lungriIndividual);
 
     if (input.wardNumber) {
-      query.where(eq(kerabariIndividual.wardNo, input.wardNumber));
+      query.where(eq(lungriIndividual.wardNo, input.wardNumber));
     }
 
-    return await query.groupBy(kerabariIndividual.gender);
+    return await query.groupBy(lungriIndividual.gender);
   });
 
 export const getAgeDistribution = publicProcedure
@@ -56,7 +56,7 @@ export const getAgeDistribution = publicProcedure
 
     return await ctx.db.execute(sql`
       SELECT ${sql.raw(ageRanges)} as age_group, COUNT(*)::int as count
-      FROM ${kerabariIndividual}
+      FROM ${lungriIndividual}
       WHERE age IS NOT NULL ${wardFilter}
       GROUP BY age_group
       ORDER BY age_group
@@ -68,20 +68,20 @@ export const getCasteDistribution = publicProcedure
   .query(async ({ ctx, input }) => {
     const query = ctx.db
       .select({
-        caste: kerabariIndividual.caste,
+        caste: lungriIndividual.caste,
         count: sql<number>`count(*)::int`,
       })
-      .from(kerabariIndividual)
+      .from(lungriIndividual)
       .where(
         input.wardNumber
           ? and(
-              sql`${kerabariIndividual.caste} IS NOT NULL`,
-              eq(kerabariIndividual.wardNo, input.wardNumber)
+              sql`${lungriIndividual.caste} IS NOT NULL`,
+              eq(lungriIndividual.wardNo, input.wardNumber)
             )
-          : sql`${kerabariIndividual.caste} IS NOT NULL`
+          : sql`${lungriIndividual.caste} IS NOT NULL`
       );
 
-    return await query.groupBy(kerabariIndividual.caste);
+    return await query.groupBy(lungriIndividual.caste);
   });
 
 export const getAncestorLanguageDistribution = publicProcedure
@@ -89,20 +89,20 @@ export const getAncestorLanguageDistribution = publicProcedure
   .query(async ({ ctx, input }) => {
     const query = ctx.db
       .select({
-        language: kerabariIndividual.ancestorLanguage,
+        language: lungriIndividual.ancestorLanguage,
         count: sql<number>`count(*)::int`,
       })
-      .from(kerabariIndividual)
+      .from(lungriIndividual)
       .where(
         input.wardNumber
           ? and(
-              sql`${kerabariIndividual.ancestorLanguage} IS NOT NULL`,
-              eq(kerabariIndividual.wardNo, input.wardNumber)
+              sql`${lungriIndividual.ancestorLanguage} IS NOT NULL`,
+              eq(lungriIndividual.wardNo, input.wardNumber)
             )
-          : sql`${kerabariIndividual.ancestorLanguage} IS NOT NULL`
+          : sql`${lungriIndividual.ancestorLanguage} IS NOT NULL`
       );
 
-    return await query.groupBy(kerabariIndividual.ancestorLanguage);
+    return await query.groupBy(lungriIndividual.ancestorLanguage);
   });
 
 export const getMotherTongueDistribution = publicProcedure
@@ -110,20 +110,20 @@ export const getMotherTongueDistribution = publicProcedure
   .query(async ({ ctx, input }) => {
     const query = ctx.db
       .select({
-        language: kerabariIndividual.primaryMotherTongue,
+        language: lungriIndividual.primaryMotherTongue,
         count: sql<number>`count(*)::int`,
       })
-      .from(kerabariIndividual)
+      .from(lungriIndividual)
       .where(
         input.wardNumber
           ? and(
-              sql`${kerabariIndividual.primaryMotherTongue} IS NOT NULL`,
-              eq(kerabariIndividual.wardNo, input.wardNumber)
+              sql`${lungriIndividual.primaryMotherTongue} IS NOT NULL`,
+              eq(lungriIndividual.wardNo, input.wardNumber)
             )
-          : sql`${kerabariIndividual.primaryMotherTongue} IS NOT NULL`
+          : sql`${lungriIndividual.primaryMotherTongue} IS NOT NULL`
       );
 
-    return await query.groupBy(kerabariIndividual.primaryMotherTongue);
+    return await query.groupBy(lungriIndividual.primaryMotherTongue);
   });
 
 export const getReligionDistribution = publicProcedure
@@ -131,20 +131,20 @@ export const getReligionDistribution = publicProcedure
   .query(async ({ ctx, input }) => {
     const query = ctx.db
       .select({
-        religion: kerabariIndividual.religion,
+        religion: lungriIndividual.religion,
         count: sql<number>`count(*)::int`,
       })
-      .from(kerabariIndividual)
+      .from(lungriIndividual)
       .where(
         input.wardNumber
           ? and(
-              sql`${kerabariIndividual.religion} IS NOT NULL`,
-              eq(kerabariIndividual.wardNo, input.wardNumber)
+              sql`${lungriIndividual.religion} IS NOT NULL`,
+              eq(lungriIndividual.wardNo, input.wardNumber)
             )
-          : sql`${kerabariIndividual.religion} IS NOT NULL`
+          : sql`${lungriIndividual.religion} IS NOT NULL`
       );
 
-    return await query.groupBy(kerabariIndividual.religion);
+    return await query.groupBy(lungriIndividual.religion);
   });
 
 export const getMaritalStatusDistribution = publicProcedure
@@ -152,20 +152,20 @@ export const getMaritalStatusDistribution = publicProcedure
   .query(async ({ ctx, input }) => {
     const query = ctx.db
       .select({
-        status: kerabariIndividual.maritalStatus,
+        status: lungriIndividual.maritalStatus,
         count: sql<number>`count(*)::int`,
       })
-      .from(kerabariIndividual)
+      .from(lungriIndividual)
       .where(
         input.wardNumber
           ? and(
-              sql`${kerabariIndividual.maritalStatus} IS NOT NULL`,
-              eq(kerabariIndividual.wardNo, input.wardNumber)
+              sql`${lungriIndividual.maritalStatus} IS NOT NULL`,
+              eq(lungriIndividual.wardNo, input.wardNumber)
             )
-          : sql`${kerabariIndividual.maritalStatus} IS NOT NULL`
+          : sql`${lungriIndividual.maritalStatus} IS NOT NULL`
       );
 
-    return await query.groupBy(kerabariIndividual.maritalStatus);
+    return await query.groupBy(lungriIndividual.maritalStatus);
   });
 
 export const getMarriageAgeDistribution = publicProcedure
@@ -184,7 +184,7 @@ export const getMarriageAgeDistribution = publicProcedure
 
     return await ctx.db.execute(sql`
       SELECT ${sql.raw(ageRanges)} as age_group, COUNT(*)::int as count
-      FROM ${kerabariIndividual}
+      FROM ${lungriIndividual}
       WHERE married_age IS NOT NULL ${wardFilter}
       GROUP BY age_group
       ORDER BY age_group
@@ -196,20 +196,20 @@ export const getDisabilityDistribution = publicProcedure
   .query(async ({ ctx, input }) => {
     const query = ctx.db
       .select({
-        isDisabled: kerabariIndividual.isDisabled,
+        isDisabled: lungriIndividual.isDisabled,
         count: sql<number>`count(*)::int`,
       })
-      .from(kerabariIndividual)
+      .from(lungriIndividual)
       .where(
         input.wardNumber
           ? and(
-              sql`${kerabariIndividual.isDisabled} IS NOT NULL`,
-              eq(kerabariIndividual.wardNo, input.wardNumber)
+              sql`${lungriIndividual.isDisabled} IS NOT NULL`,
+              eq(lungriIndividual.wardNo, input.wardNumber)
             )
-          : sql`${kerabariIndividual.isDisabled} IS NOT NULL`
+          : sql`${lungriIndividual.isDisabled} IS NOT NULL`
       );
 
-    return await query.groupBy(kerabariIndividual.isDisabled);
+    return await query.groupBy(lungriIndividual.isDisabled);
   });
 
 export const getSubmissionStats = publicProcedure

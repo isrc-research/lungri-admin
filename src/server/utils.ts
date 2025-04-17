@@ -99,13 +99,13 @@ export const fetchSurveySubmissions = async (
       }
 
       switch (formId) {
-        case "kerabari_building_survey":
+        case "lungri_building_survey":
           handleBuildingFlow(submission, ctx);
           break;
-        case "kerabari_business_survey":
+        case "lungri_business_survey":
           handleBusinessFlow(submission, ctx);
           break;
-        case "kerabari_family_survey":
+        case "lungri_family_survey":
           handleFamilyFlow(submission, ctx);
         default:
           console.log("No handler found for form ID:", formId);

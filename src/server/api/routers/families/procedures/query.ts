@@ -1,17 +1,17 @@
 import { publicProcedure } from "@/server/api/trpc";
 import { familyQuerySchema } from "../families.schema";
 import { family } from "@/server/db/schema/family/family";
-import { kerabariAnimal } from "@/server/db/schema/family/animals";
-import { kerabariAnimalProduct } from "@/server/db/schema/family/animal-products";
-import { kerabariCrop } from "@/server/db/schema/family/crops";
-import { kerabariIndividual } from "@/server/db/schema/family/individual";
+import { lungriAnimal } from "@/server/db/schema/family/animals";
+import { lungriAnimalProduct } from "@/server/db/schema/family/animal-products";
+import { lungriCrop } from "@/server/db/schema/family/crops";
+import { lungriIndividual } from "@/server/db/schema/family/individual";
 import { surveyAttachments } from "@/server/db/schema";
 import { and, eq, ilike, sql } from "drizzle-orm";
 import { z } from "zod";
 import { TRPCError } from "@trpc/server";
 import { env } from "@/env";
 import { FamilyResult } from "../types";
-import kerabariAgriculturalLand from "@/server/db/schema/family/agricultural-lands";
+import lungriAgriculturalLand from "@/server/db/schema/family/agricultural-lands";
 
 export const getAll = publicProcedure
   .input(familyQuerySchema)
@@ -93,24 +93,24 @@ export const getById = publicProcedure
     ] = await Promise.all([
       ctx.db
         .select()
-        .from(kerabariAgriculturalLand)
-        .where(eq(kerabariAgriculturalLand.familyId, input.id)),
+        .from(lungriAgriculturalLand)
+        .where(eq(lungriAgriculturalLand.familyId, input.id)),
       ctx.db
         .select()
-        .from(kerabariAnimal)
-        .where(eq(kerabariAnimal.familyId, input.id)),
+        .from(lungriAnimal)
+        .where(eq(lungriAnimal.familyId, input.id)),
       ctx.db
         .select()
-        .from(kerabariAnimalProduct)
-        .where(eq(kerabariAnimalProduct.familyId, input.id)),
+        .from(lungriAnimalProduct)
+        .where(eq(lungriAnimalProduct.familyId, input.id)),
       ctx.db
         .select()
-        .from(kerabariCrop)
-        .where(eq(kerabariCrop.familyId, input.id)),
+        .from(lungriCrop)
+        .where(eq(lungriCrop.familyId, input.id)),
       ctx.db
         .select()
-        .from(kerabariIndividual)
-        .where(eq(kerabariIndividual.familyId, input.id)),
+        .from(lungriIndividual)
+        .where(eq(lungriIndividual.familyId, input.id)),
     ]);
 
     const attachments = await ctx.db.query.surveyAttachments.findMany({
