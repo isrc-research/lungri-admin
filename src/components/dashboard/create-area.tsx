@@ -131,7 +131,7 @@ const CreateAreaMap = ({ onGeometryChange }: CreateAreaMapProps) => {
           </Button>
         </div>
         <Map
-          center={[26.92632339689546, 87.37272328644147]}
+          center={[28.263272170955233, 82.77092260677638]}
           zoom={13}
           className="h-full w-full rounded-md"
         >
