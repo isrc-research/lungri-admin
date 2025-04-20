@@ -40,11 +40,11 @@ export const setupPDFHeader = async (doc: jsPDF, details: HeaderDetails) => {
 
   // Set title and main header - slightly smaller font sizes
   doc.setFontSize(14);
-  doc.text("lungri Rural Municipality", doc.internal.pageSize.width / 2, 15, {
+  doc.text("Lungri Rural Municipality", doc.internal.pageSize.width / 2, 15, {
     align: "center",
   });
   doc.setFontSize(10);
-  doc.text("Biratnagar, Koshi Province", doc.internal.pageSize.width / 2, 22, {
+  doc.text("Rolpa, Lumbini Province", doc.internal.pageSize.width / 2, 22, {
     align: "center",
   });
 
