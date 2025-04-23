@@ -10,12 +10,17 @@ const EnumeratorsPage: React.FC = () => {
     <ContentLayout
       title="Enumerators"
       actions={
-        <Link href="/enumerators/create">
-          <Button>
-            <UserPlus className="mr-2 h-4 w-4" />
-            Add Enumerator
-          </Button>
-        </Link>
+        <div className="flex gap-2">
+          <Link href="/enumerators/create">
+            <Button>
+              <UserPlus className="mr-2 h-4 w-4" />
+              Add Enumerator
+            </Button>
+          </Link>
+          <Link href="/enumerators/print-id">
+            <Button variant="outline">Print ID Cards</Button>
+          </Link>
+        </div>
       }
     >
       <div className="container px-0">
