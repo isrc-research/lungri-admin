@@ -2,6 +2,8 @@
 
 import React, { useEffect, useState } from "react";
 import idCardSvg from "@/lib/assets/lungri-id-card.svg";
+import { api } from "@/trpc/react";
+import { enumeratorWardWiseSchema } from "@/server/api/routers/enumwise/enumwise.schema";
 
 interface Enumerator {
   id: string;
@@ -35,6 +37,24 @@ export function IdCardGrid({ enumerators }: IdCardGridProps) {
   const [loading, setLoading] = useState(true);
 
   // Process each enumerator to generate their ID card
+  // Get all avatar URLs at once
+  const [enumeratorsWithAvatars, setEnumeratorsWithAvatars] =
+    useState(enumerators);
+
+  const avatarQueries = enumerators.map((enumerator) =>
+    api.enumerator.getAvatarUrl.useQuery(enumerator.id, {
+      enabled: true,
+      staleTime: Infinity,
+      onSuccess: (data) => {
+        setEnumeratorsWithAvatars((prev) =>
+          prev.map((e) =>
+            e.id === enumerator.id ? { ...e, avatarUrl: data } : e,
+          ),
+        );
+      },
+    }),
+  );
+
   useEffect(() => {
     const generateCards = async () => {
       setLoading(true);
@@ -51,8 +71,14 @@ export function IdCardGrid({ enumerators }: IdCardGridProps) {
 
       // Process each enumerator
       const generatedCards = await Promise.all(
-        enumerators.map(async (enumerator) => {
+        enumeratorsWithAvatars.map(async (enumerator, index) => {
           try {
+            // console.log(enumerator);
+
+            const avatarUrl = avatarQueries[index]?.data;
+
+            // console.log(avatarUrl);
+
             // Make a copy of the template for this enumerator
             let svgContent = templateSvg;
 
@@ -71,10 +97,10 @@ export function IdCardGrid({ enumerators }: IdCardGridProps) {
             );
 
             // Replace photo layer with avatar image if available
-            if (enumerator.avatar) {
+            if (avatarUrl) {
               try {
                 // Convert to base64 to ensure proper embedding in SVG
-                const base64Image = await getBase64FromUrl(enumerator.avatar);
+                const base64Image = await getBase64FromUrl(avatarUrl);
                 const photoLayerRegex = /<rect[^>]*id="photo-layer"[^>]*\/>/;
                 const imageElement = `<image id="photo-layer" x="114" y="179" width="135" height="155" href="${base64Image}" preserveAspectRatio="xMidYMid slice"/>`;
                 svgContent = svgContent.replace(photoLayerRegex, imageElement);
@@ -109,31 +135,67 @@ export function IdCardGrid({ enumerators }: IdCardGridProps) {
     );
   }
 
+  // Calculate how many pages we need (6 cards per page)
+  const cardsPerPage = 6;
+  const totalPages = Math.ceil(cardData.length / cardsPerPage);
+
+  // Create array of pages
+  const pages = Array.from({ length: totalPages }, (_, pageIndex) => {
+    const startIdx = pageIndex * cardsPerPage;
+    const pageCards = cardData.slice(startIdx, startIdx + cardsPerPage);
+    return pageCards;
+  });
+
   return (
-    <div className="id-card-grid">
-      {cardData.map((card) =>
-        card.svgContent ? (
-          <div key={card.id} className="id-card">
-            <div
-              dangerouslySetInnerHTML={{ __html: card.svgContent }}
-              className="id-card-content"
-            />
-          </div>
-        ) : (
-          <div key={card.id} className="id-card id-card-error">
-            <p>Failed to generate ID card</p>
-          </div>
-        ),
-      )}
+    <div className="id-cards-container">
+      {pages.map((pageCards, pageIndex) => (
+        <div key={`page-${pageIndex}`} className="id-card-grid">
+          {pageCards.map((card) =>
+            card.svgContent ? (
+              <div key={card.id} className="id-card">
+                <div
+                  dangerouslySetInnerHTML={{ __html: card.svgContent }}
+                  className="id-card-content"
+                />
+              </div>
+            ) : (
+              <div key={card.id} className="id-card id-card-error">
+                <p>Failed to generate ID card</p>
+              </div>
+            ),
+          )}
+          {/* Add empty placeholders for incomplete pages to maintain grid layout */}
+          {Array.from(
+            { length: cardsPerPage - pageCards.length },
+            (_, index) => (
+              <div
+                key={`empty-${index}`}
+                className="id-card id-card-empty"
+              ></div>
+            ),
+          )}
+        </div>
+      ))}
 
       <style jsx global>{`
+        .id-cards-container {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+        }
+
         .id-card-grid {
           display: grid;
           grid-template-columns: repeat(2, 1fr);
           grid-template-rows: repeat(3, 1fr);
-          gap: 10mm;
-          padding: 10mm;
+          gap: 8mm;
+          padding: 15mm 10mm;
+          width: 190mm;
+          height: 277mm; /* A4 height */
+          box-sizing: border-box;
           page-break-after: always;
+          page-break-inside: avoid;
+          margin-bottom: 0;
         }
 
         .id-card {
@@ -141,24 +203,32 @@ export function IdCardGrid({ enumerators }: IdCardGridProps) {
           justify-content: center;
           align-items: center;
           box-sizing: border-box;
+          height: 80mm; /* Reduced from 85mm */
+          width: 80mm; /* Reduced from 85mm */
+        }
+
+        .id-card-empty {
+          visibility: hidden;
         }
 
         .id-card-content {
-          width: 85mm;
+          width: 80mm; /* Reduced from 85mm */
           height: auto;
+          max-height: 80mm; /* Reduced from 85mm */
         }
 
         .id-card-content svg {
           width: 100%;
           height: auto;
           display: block;
+          max-height: 78mm; /* Reduced from 83mm */
         }
 
         .id-card-error {
           display: flex;
           justify-content: center;
           align-items: center;
-          height: 85mm;
+          height: 80mm; /* Reduced from 85mm */
           background-color: #f9e3e3;
           color: #a12222;
           text-align: center;
@@ -167,29 +237,44 @@ export function IdCardGrid({ enumerators }: IdCardGridProps) {
 
         @media print {
           @page {
-            size: A4;
-            margin: 10mm;
+            size: A4 portrait;
+            margin: 0;
+            padding: 0;
           }
 
           body {
             margin: 0;
+            padding: 0;
+          }
+
+          .id-cards-container {
+            width: 210mm;
+            padding: 0;
+            margin: 0;
           }
 
           .id-card-grid {
-            width: 190mm;
-            height: 277mm;
+            margin: 0;
+            padding: 15mm 10mm; /* Increased vertical padding */
+            height: 297mm; /* Exact A4 height */
+            page-break-after: always;
           }
 
           .id-card {
-            height: 85mm;
+            height: 80mm; /* Reduced from 85mm */
             overflow: hidden;
           }
 
           /* Ensure consistent sizing for SVG content */
           .id-card-content svg {
-            height: 83mm;
-            width: 83mm;
+            height: 78mm; /* Reduced from 83mm */
+            width: 78mm; /* Reduced from 83mm */
             object-fit: contain;
+          }
+
+          /* Force each page to have its own consistent styling */
+          .id-card-grid:last-child {
+            page-break-after: auto;
           }
         }
       `}</style>
