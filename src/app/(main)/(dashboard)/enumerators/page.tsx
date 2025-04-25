@@ -3,24 +3,36 @@ import { EnumeratorsList } from "@/components/dashboard/enumerators-list";
 import { ContentLayout } from "@/components/admin-panel/content-layout";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { UserPlus } from "lucide-react";
+import { Tractor, UserPlus } from "lucide-react";
+import { MagnifyingGlassIcon } from "@radix-ui/react-icons";
 
 const EnumeratorsPage: React.FC = () => {
   return (
     <ContentLayout
       title="Enumerators"
       actions={
-        <div className="flex gap-2">
+        <>
           <Link href="/enumerators/create">
-            <Button>
+            <Button className="mr-2">
               <UserPlus className="mr-2 h-4 w-4" />
               Add Enumerator
             </Button>
           </Link>
+
           <Link href="/enumerators/print-id">
-            <Button variant="outline">Print ID Cards</Button>
+            <Button>
+              <MagnifyingGlassIcon className="mr-2 h-4 w-4" />
+              Print ID Card
+            </Button>
           </Link>
-        </div>
+
+          <Link href="/enumerators/track">
+            <Button>
+              <MagnifyingGlassIcon className="mr-2 h-4 w-4" />
+              Track Enumerators
+            </Button>
+          </Link>
+        </>
       }
     >
       <div className="container px-0">
