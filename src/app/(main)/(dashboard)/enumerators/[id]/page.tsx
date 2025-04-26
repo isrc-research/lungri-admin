@@ -224,7 +224,7 @@ export default function EnumeratorDetailsPage({
             <InfoItem
               icon={UserCheck}
               label="Assigned Area"
-              value={assignedArea?.[0] || "Not Assigned"}
+              value={assignedArea ? assignedArea.join(", ") : null}
             />
 
             <div className="flex items-start space-x-3">
@@ -236,11 +236,13 @@ export default function EnumeratorDetailsPage({
                   Assign the Area
                 </p>
                 <div className="mt-2">
-                  <Link href={`/enumerators/${params.id}/manual-assign`}>
-                    <Button disabled={!Boolean(assignedArea?.length)}>
-                      Assign Area
-                    </Button>
-                  </Link>
+                  {typeof assignedArea?.[0] !== "number" ? (
+                    <Link href={`/enumerators/${params.id}/manual-assign`}>
+                      <Button>Assign Area</Button>
+                    </Link>
+                  ) : (
+                    <Button disabled>Assign Area</Button>
+                  )}
                 </div>
               </div>
             </div>
