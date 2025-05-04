@@ -11,8 +11,8 @@ import { HouseholdData } from "./household-data.model";
 import { BusinessData } from "./business-data.model";
 
 // Aggregated building data
-export const gadhawaAggregateBuilding = pgTable(
-  "gadhawa_aggregate_buildings",
+export const lungriAggregateBuilding = pgTable(
+  "lungri_aggregate_buildings",
   {
     // Primary identifier
     id: varchar("id", { length: 48 }).primaryKey(),
@@ -110,8 +110,8 @@ export const gadhawaAggregateBuilding = pgTable(
   },
 );
 
-export type gadhawaAggregateBuilding =
-  typeof gadhawaAggregateBuilding.$inferSelect;
+export type lungriAggregateBuilding =
+  typeof lungriAggregateBuilding.$inferSelect;
 
-export type NewgadhawaAggregateBuilding =
-  typeof gadhawaAggregateBuilding.$inferInsert;
+export type NewlungriAggregateBuilding =
+  typeof lungriAggregateBuilding.$inferInsert;

@@ -8,7 +8,7 @@ import {
 } from "../schemas/building-schema";
 import { TRPCError } from "@trpc/server";
 import { and, eq, ilike, sql } from "drizzle-orm";
-import { gadhawaAggregateBuilding } from "@/server/db/schema/aggregate-building";
+import { lungriAggregateBuilding } from "@/server/db/schema/aggregate-building";
 import { env } from "@/env";
 import { surveyAttachments } from "@/server/db/schema";
 import { generateMediaUrls } from "../utils/media-utils";
@@ -24,32 +24,32 @@ export const getAllBuildings = publicProcedure
 
       if (filters.wardId) {
         filterConditions.push(
-          eq(gadhawaAggregateBuilding.ward_number, parseInt(filters.wardId)),
+          eq(lungriAggregateBuilding.ward_number, parseInt(filters.wardId)),
         );
       }
 
       if (filters.areaCode) {
         filterConditions.push(
-          eq(gadhawaAggregateBuilding.area_code, parseInt(filters.areaCode)),
+          eq(lungriAggregateBuilding.area_code, parseInt(filters.areaCode)),
         );
       }
 
       if (filters.enumeratorId) {
         filterConditions.push(
-          eq(gadhawaAggregateBuilding.enumerator_id, filters.enumeratorId),
+          eq(lungriAggregateBuilding.enumerator_id, filters.enumeratorId),
         );
       }
 
       if (filters.mapStatus) {
         filterConditions.push(
-          eq(gadhawaAggregateBuilding.map_status, filters.mapStatus),
+          eq(lungriAggregateBuilding.map_status, filters.mapStatus),
         );
       }
 
       if (filters.buildingOwnership) {
         filterConditions.push(
           eq(
-            gadhawaAggregateBuilding.building_ownership_status,
+            lungriAggregateBuilding.building_ownership_status,
             filters.buildingOwnership,
           ),
         );
@@ -57,18 +57,18 @@ export const getAllBuildings = publicProcedure
 
       if (filters.buildingBase) {
         filterConditions.push(
-          eq(gadhawaAggregateBuilding.building_base, filters.buildingBase),
+          eq(lungriAggregateBuilding.building_base, filters.buildingBase),
         );
       }
 
       if (filters.hasHouseholds !== undefined) {
         if (filters.hasHouseholds) {
           filterConditions.push(
-            sql`jsonb_array_length(${gadhawaAggregateBuilding.households}) > 0`,
+            sql`jsonb_array_length(${lungriAggregateBuilding.households}) > 0`,
           );
         } else {
           filterConditions.push(
-            sql`(${gadhawaAggregateBuilding.households} IS NULL OR jsonb_array_length(${gadhawaAggregateBuilding.households}) = 0)`,
+            sql`(${lungriAggregateBuilding.households} IS NULL OR jsonb_array_length(${lungriAggregateBuilding.households}) = 0)`,
           );
         }
       }
@@ -76,27 +76,27 @@ export const getAllBuildings = publicProcedure
       if (filters.hasBusinesses !== undefined) {
         if (filters.hasBusinesses) {
           filterConditions.push(
-            sql`jsonb_array_length(${gadhawaAggregateBuilding.businesses}) > 0`,
+            sql`jsonb_array_length(${lungriAggregateBuilding.businesses}) > 0`,
           );
         } else {
           filterConditions.push(
-            sql`(${gadhawaAggregateBuilding.businesses} IS NULL OR jsonb_array_length(${gadhawaAggregateBuilding.businesses}) = 0)`,
+            sql`(${lungriAggregateBuilding.businesses} IS NULL OR jsonb_array_length(${lungriAggregateBuilding.businesses}) = 0)`,
           );
         }
       }
 
       if (filters.fromDate && filters.toDate) {
         filterConditions.push(
-          sql`${gadhawaAggregateBuilding.building_survey_date} BETWEEN ${filters.fromDate}::timestamp AND ${filters.toDate}::timestamp`,
+          sql`${lungriAggregateBuilding.building_survey_date} BETWEEN ${filters.fromDate}::timestamp AND ${filters.toDate}::timestamp`,
         );
       }
 
       if (filters.searchTerm) {
         filterConditions.push(
           sql`(
-            ${ilike(gadhawaAggregateBuilding.locality, `%${filters.searchTerm}%`)} OR
-            ${ilike(gadhawaAggregateBuilding.building_owner_name, `%${filters.searchTerm}%`)} OR
-            ${ilike(gadhawaAggregateBuilding.enumerator_name, `%${filters.searchTerm}%`)}
+            ${ilike(lungriAggregateBuilding.locality, `%${filters.searchTerm}%`)} OR
+            ${ilike(lungriAggregateBuilding.building_owner_name, `%${filters.searchTerm}%`)} OR
+            ${ilike(lungriAggregateBuilding.enumerator_name, `%${filters.searchTerm}%`)}
           )`,
         );
       }
@@ -125,20 +125,20 @@ export const getAllBuildings = publicProcedure
     const [data, totalCount] = await Promise.all([
       ctx.db
         .select({
-          id: gadhawaAggregateBuilding.id,
-          buildingId: gadhawaAggregateBuilding.building_id,
-          surveyed_at: gadhawaAggregateBuilding.building_survey_date,
-          wardNumber: gadhawaAggregateBuilding.ward_number,
-          areaCode: gadhawaAggregateBuilding.area_code,
-          locality: gadhawaAggregateBuilding.locality,
-          ownerName: gadhawaAggregateBuilding.building_owner_name,
-          enumeratorName: gadhawaAggregateBuilding.enumerator_name,
-          totalFamilies: gadhawaAggregateBuilding.total_families,
-          totalBusinesses: gadhawaAggregateBuilding.total_businesses,
-          mapStatus: gadhawaAggregateBuilding.map_status,
-          created_at: gadhawaAggregateBuilding.created_at,
+          id: lungriAggregateBuilding.id,
+          buildingId: lungriAggregateBuilding.building_id,
+          surveyed_at: lungriAggregateBuilding.building_survey_date,
+          wardNumber: lungriAggregateBuilding.ward_number,
+          areaCode: lungriAggregateBuilding.area_code,
+          locality: lungriAggregateBuilding.locality,
+          ownerName: lungriAggregateBuilding.building_owner_name,
+          enumeratorName: lungriAggregateBuilding.enumerator_name,
+          totalFamilies: lungriAggregateBuilding.total_families,
+          totalBusinesses: lungriAggregateBuilding.total_businesses,
+          mapStatus: lungriAggregateBuilding.map_status,
+          created_at: lungriAggregateBuilding.created_at,
         })
-        .from(gadhawaAggregateBuilding)
+        .from(lungriAggregateBuilding)
         .where(conditions)
         .orderBy(sql`${sql.identifier(actualSortBy)} ${sql.raw(sortOrder)}`)
         .limit(limit)
@@ -146,7 +146,7 @@ export const getAllBuildings = publicProcedure
 
       ctx.db
         .select({ count: sql<number>`count(*)` })
-        .from(gadhawaAggregateBuilding)
+        .from(lungriAggregateBuilding)
         .where(conditions)
         .then((result) => result[0]?.count || 0),
     ]);
@@ -166,8 +166,8 @@ export const getBuildingById = publicProcedure
   .query(async ({ ctx, input }) => {
     const building = await ctx.db
       .select()
-      .from(gadhawaAggregateBuilding)
-      .where(eq(gadhawaAggregateBuilding.id, input.id))
+      .from(lungriAggregateBuilding)
+      .where(eq(lungriAggregateBuilding.id, input.id))
       .limit(1);
 
     if (!building[0]) {
@@ -211,25 +211,25 @@ export const getBuildingsByWard = publicProcedure
     const [data, totalCount] = await Promise.all([
       ctx.db
         .select({
-          id: gadhawaAggregateBuilding.id,
-          locality: gadhawaAggregateBuilding.locality,
-          areaCode: gadhawaAggregateBuilding.area_code,
-          ownerName: gadhawaAggregateBuilding.building_owner_name,
-          totalFamilies: gadhawaAggregateBuilding.total_families,
-          totalBusinesses: gadhawaAggregateBuilding.total_businesses,
-          lat: gadhawaAggregateBuilding.building_gps_latitude,
-          lng: gadhawaAggregateBuilding.building_gps_longitude,
+          id: lungriAggregateBuilding.id,
+          locality: lungriAggregateBuilding.locality,
+          areaCode: lungriAggregateBuilding.area_code,
+          ownerName: lungriAggregateBuilding.building_owner_name,
+          totalFamilies: lungriAggregateBuilding.total_families,
+          totalBusinesses: lungriAggregateBuilding.total_businesses,
+          lat: lungriAggregateBuilding.building_gps_latitude,
+          lng: lungriAggregateBuilding.building_gps_longitude,
         })
-        .from(gadhawaAggregateBuilding)
-        .where(eq(gadhawaAggregateBuilding.ward_number, parseInt(wardId)))
-        .orderBy(gadhawaAggregateBuilding.area_code)
+        .from(lungriAggregateBuilding)
+        .where(eq(lungriAggregateBuilding.ward_number, parseInt(wardId)))
+        .orderBy(lungriAggregateBuilding.area_code)
         .limit(limit)
         .offset(offset),
 
       ctx.db
         .select({ count: sql<number>`count(*)` })
-        .from(gadhawaAggregateBuilding)
-        .where(eq(gadhawaAggregateBuilding.ward_number, parseInt(wardId)))
+        .from(lungriAggregateBuilding)
+        .where(eq(lungriAggregateBuilding.ward_number, parseInt(wardId)))
         .then((result) => result[0]?.count || 0),
     ]);
 
@@ -251,25 +251,25 @@ export const getBuildingsByAreaCode = publicProcedure
     const [data, totalCount] = await Promise.all([
       ctx.db
         .select({
-          id: gadhawaAggregateBuilding.id,
-          locality: gadhawaAggregateBuilding.locality,
-          wardNumber: gadhawaAggregateBuilding.ward_number,
-          ownerName: gadhawaAggregateBuilding.building_owner_name,
-          lat: gadhawaAggregateBuilding.building_gps_latitude,
-          lng: gadhawaAggregateBuilding.building_gps_longitude,
-          gpsAccuracy: gadhawaAggregateBuilding.building_gps_accuracy,
-          totalFamilies: gadhawaAggregateBuilding.total_families,
-          totalBusinesses: gadhawaAggregateBuilding.total_businesses,
+          id: lungriAggregateBuilding.id,
+          locality: lungriAggregateBuilding.locality,
+          wardNumber: lungriAggregateBuilding.ward_number,
+          ownerName: lungriAggregateBuilding.building_owner_name,
+          lat: lungriAggregateBuilding.building_gps_latitude,
+          lng: lungriAggregateBuilding.building_gps_longitude,
+          gpsAccuracy: lungriAggregateBuilding.building_gps_accuracy,
+          totalFamilies: lungriAggregateBuilding.total_families,
+          totalBusinesses: lungriAggregateBuilding.total_businesses,
         })
-        .from(gadhawaAggregateBuilding)
-        .where(eq(gadhawaAggregateBuilding.area_code, parseInt(areaCode)))
+        .from(lungriAggregateBuilding)
+        .where(eq(lungriAggregateBuilding.area_code, parseInt(areaCode)))
         .limit(limit)
         .offset(offset),
 
       ctx.db
         .select({ count: sql<number>`count(*)` })
-        .from(gadhawaAggregateBuilding)
-        .where(eq(gadhawaAggregateBuilding.area_code, parseInt(areaCode)))
+        .from(lungriAggregateBuilding)
+        .where(eq(lungriAggregateBuilding.area_code, parseInt(areaCode)))
         .then((result) => result[0]?.count || 0),
     ]);
 
@@ -306,10 +306,10 @@ export const getBuildingsByEnumerator = publicProcedure
 
     let condition = sql`TRUE`;
     if (enumeratorId) {
-      condition = eq(gadhawaAggregateBuilding.enumerator_id, enumeratorId);
+      condition = eq(lungriAggregateBuilding.enumerator_id, enumeratorId);
     } else if (enumeratorName) {
       condition = ilike(
-        gadhawaAggregateBuilding.enumerator_name,
+        lungriAggregateBuilding.enumerator_name,
         `%${enumeratorName}%`,
       );
     }
@@ -317,24 +317,24 @@ export const getBuildingsByEnumerator = publicProcedure
     const [data, totalCount] = await Promise.all([
       ctx.db
         .select({
-          id: gadhawaAggregateBuilding.id,
-          wardNumber: gadhawaAggregateBuilding.ward_number,
-          areaCode: gadhawaAggregateBuilding.area_code,
-          locality: gadhawaAggregateBuilding.locality,
-          ownerName: gadhawaAggregateBuilding.building_owner_name,
-          surveyDate: gadhawaAggregateBuilding.building_survey_date,
-          totalFamilies: gadhawaAggregateBuilding.total_families,
-          totalBusinesses: gadhawaAggregateBuilding.total_businesses,
+          id: lungriAggregateBuilding.id,
+          wardNumber: lungriAggregateBuilding.ward_number,
+          areaCode: lungriAggregateBuilding.area_code,
+          locality: lungriAggregateBuilding.locality,
+          ownerName: lungriAggregateBuilding.building_owner_name,
+          surveyDate: lungriAggregateBuilding.building_survey_date,
+          totalFamilies: lungriAggregateBuilding.total_families,
+          totalBusinesses: lungriAggregateBuilding.total_businesses,
         })
-        .from(gadhawaAggregateBuilding)
+        .from(lungriAggregateBuilding)
         .where(condition)
-        .orderBy(gadhawaAggregateBuilding.building_survey_date)
+        .orderBy(lungriAggregateBuilding.building_survey_date)
         .limit(limit)
         .offset(offset),
 
       ctx.db
         .select({ count: sql<number>`count(*)` })
-        .from(gadhawaAggregateBuilding)
+        .from(lungriAggregateBuilding)
         .where(condition)
         .then((result) => result[0]?.count || 0),
     ]);
@@ -353,11 +353,11 @@ export const getBuildingStats = publicProcedure.query(async ({ ctx }) => {
   const stats = await ctx.db
     .select({
       totalBuildings: sql<number>`count(*)`,
-      totalHouseholds: sql<number>`sum(case when jsonb_array_length(${gadhawaAggregateBuilding.households}) > 0 then ${gadhawaAggregateBuilding.total_families} else 0 end)`,
-      totalBusinesses: sql<number>`sum(case when jsonb_array_length(${gadhawaAggregateBuilding.businesses}) > 0 then ${gadhawaAggregateBuilding.total_businesses} else 0 end)`,
-      avgFamiliesPerBuilding: sql<number>`avg(${gadhawaAggregateBuilding.total_families})`,
+      totalHouseholds: sql<number>`sum(case when jsonb_array_length(${lungriAggregateBuilding.households}) > 0 then ${lungriAggregateBuilding.total_families} else 0 end)`,
+      totalBusinesses: sql<number>`sum(case when jsonb_array_length(${lungriAggregateBuilding.businesses}) > 0 then ${lungriAggregateBuilding.total_businesses} else 0 end)`,
+      avgFamiliesPerBuilding: sql<number>`avg(${lungriAggregateBuilding.total_families})`,
     })
-    .from(gadhawaAggregateBuilding);
+    .from(lungriAggregateBuilding);
 
   return stats[0];
 });
@@ -373,32 +373,32 @@ export const getAllBuildingsInfinite = publicProcedure
 
       if (filters.wardId) {
         filterConditions.push(
-          eq(gadhawaAggregateBuilding.ward_number, parseInt(filters.wardId)),
+          eq(lungriAggregateBuilding.ward_number, parseInt(filters.wardId)),
         );
       }
 
       if (filters.areaCode) {
         filterConditions.push(
-          eq(gadhawaAggregateBuilding.area_code, parseInt(filters.areaCode)),
+          eq(lungriAggregateBuilding.area_code, parseInt(filters.areaCode)),
         );
       }
 
       if (filters.enumeratorId) {
         filterConditions.push(
-          eq(gadhawaAggregateBuilding.enumerator_id, filters.enumeratorId),
+          eq(lungriAggregateBuilding.enumerator_id, filters.enumeratorId),
         );
       }
 
       if (filters.mapStatus) {
         filterConditions.push(
-          eq(gadhawaAggregateBuilding.map_status, filters.mapStatus),
+          eq(lungriAggregateBuilding.map_status, filters.mapStatus),
         );
       }
 
       if (filters.buildingOwnership) {
         filterConditions.push(
           eq(
-            gadhawaAggregateBuilding.building_ownership_status,
+            lungriAggregateBuilding.building_ownership_status,
             filters.buildingOwnership,
           ),
         );
@@ -406,18 +406,18 @@ export const getAllBuildingsInfinite = publicProcedure
 
       if (filters.buildingBase) {
         filterConditions.push(
-          eq(gadhawaAggregateBuilding.building_base, filters.buildingBase),
+          eq(lungriAggregateBuilding.building_base, filters.buildingBase),
         );
       }
 
       if (filters.hasHouseholds !== undefined) {
         if (filters.hasHouseholds) {
           filterConditions.push(
-            sql`jsonb_array_length(${gadhawaAggregateBuilding.households}) > 0`,
+            sql`jsonb_array_length(${lungriAggregateBuilding.households}) > 0`,
           );
         } else {
           filterConditions.push(
-            sql`(${gadhawaAggregateBuilding.households} IS NULL OR jsonb_array_length(${gadhawaAggregateBuilding.households}) = 0)`,
+            sql`(${lungriAggregateBuilding.households} IS NULL OR jsonb_array_length(${lungriAggregateBuilding.households}) = 0)`,
           );
         }
       }
@@ -425,27 +425,27 @@ export const getAllBuildingsInfinite = publicProcedure
       if (filters.hasBusinesses !== undefined) {
         if (filters.hasBusinesses) {
           filterConditions.push(
-            sql`jsonb_array_length(${gadhawaAggregateBuilding.businesses}) > 0`,
+            sql`jsonb_array_length(${lungriAggregateBuilding.businesses}) > 0`,
           );
         } else {
           filterConditions.push(
-            sql`(${gadhawaAggregateBuilding.businesses} IS NULL OR jsonb_array_length(${gadhawaAggregateBuilding.businesses}) = 0)`,
+            sql`(${lungriAggregateBuilding.businesses} IS NULL OR jsonb_array_length(${lungriAggregateBuilding.businesses}) = 0)`,
           );
         }
       }
 
       if (filters.fromDate && filters.toDate) {
         filterConditions.push(
-          sql`${gadhawaAggregateBuilding.building_survey_date} BETWEEN ${filters.fromDate}::timestamp AND ${filters.toDate}::timestamp`,
+          sql`${lungriAggregateBuilding.building_survey_date} BETWEEN ${filters.fromDate}::timestamp AND ${filters.toDate}::timestamp`,
         );
       }
 
       if (filters.searchTerm) {
         filterConditions.push(
           sql`(
-            ${ilike(gadhawaAggregateBuilding.locality, `%${filters.searchTerm}%`)} OR
-            ${ilike(gadhawaAggregateBuilding.building_owner_name, `%${filters.searchTerm}%`)} OR
-            ${ilike(gadhawaAggregateBuilding.enumerator_name, `%${filters.searchTerm}%`)}
+            ${ilike(lungriAggregateBuilding.locality, `%${filters.searchTerm}%`)} OR
+            ${ilike(lungriAggregateBuilding.building_owner_name, `%${filters.searchTerm}%`)} OR
+            ${ilike(lungriAggregateBuilding.enumerator_name, `%${filters.searchTerm}%`)}
           )`,
         );
       }
@@ -477,20 +477,20 @@ export const getAllBuildingsInfinite = publicProcedure
     const [data, totalCount] = await Promise.all([
       ctx.db
         .select({
-          id: gadhawaAggregateBuilding.id,
-          buildingId: gadhawaAggregateBuilding.building_id,
-          surveyed_at: gadhawaAggregateBuilding.building_survey_date,
-          wardNumber: gadhawaAggregateBuilding.ward_number,
-          areaCode: gadhawaAggregateBuilding.area_code,
-          locality: gadhawaAggregateBuilding.locality,
-          ownerName: gadhawaAggregateBuilding.building_owner_name,
-          enumeratorName: gadhawaAggregateBuilding.enumerator_name,
-          totalFamilies: gadhawaAggregateBuilding.total_families,
-          totalBusinesses: gadhawaAggregateBuilding.total_businesses,
-          mapStatus: gadhawaAggregateBuilding.map_status,
-          created_at: gadhawaAggregateBuilding.created_at,
+          id: lungriAggregateBuilding.id,
+          buildingId: lungriAggregateBuilding.building_id,
+          surveyed_at: lungriAggregateBuilding.building_survey_date,
+          wardNumber: lungriAggregateBuilding.ward_number,
+          areaCode: lungriAggregateBuilding.area_code,
+          locality: lungriAggregateBuilding.locality,
+          ownerName: lungriAggregateBuilding.building_owner_name,
+          enumeratorName: lungriAggregateBuilding.enumerator_name,
+          totalFamilies: lungriAggregateBuilding.total_families,
+          totalBusinesses: lungriAggregateBuilding.total_businesses,
+          mapStatus: lungriAggregateBuilding.map_status,
+          created_at: lungriAggregateBuilding.created_at,
         })
-        .from(gadhawaAggregateBuilding)
+        .from(lungriAggregateBuilding)
         .where(conditions)
         .orderBy(sql`${sql.identifier(actualSortBy)} ${sql.raw(sortOrder)}`)
         .limit(limit)
@@ -498,7 +498,7 @@ export const getAllBuildingsInfinite = publicProcedure
 
       ctx.db
         .select({ count: sql<number>`count(*)` })
-        .from(gadhawaAggregateBuilding)
+        .from(lungriAggregateBuilding)
         .where(conditions)
         .then((result) => result[0]?.count || 0),
     ]);
@@ -525,32 +525,32 @@ export const getAggregatedBuildingData = publicProcedure
 
       if (filters.wardId) {
         filterConditions.push(
-          eq(gadhawaAggregateBuilding.ward_number, parseInt(filters.wardId)),
+          eq(lungriAggregateBuilding.ward_number, parseInt(filters.wardId)),
         );
       }
 
       if (filters.areaCode) {
         filterConditions.push(
-          eq(gadhawaAggregateBuilding.area_code, parseInt(filters.areaCode)),
+          eq(lungriAggregateBuilding.area_code, parseInt(filters.areaCode)),
         );
       }
 
       if (filters.enumeratorId) {
         filterConditions.push(
-          eq(gadhawaAggregateBuilding.enumerator_id, filters.enumeratorId),
+          eq(lungriAggregateBuilding.enumerator_id, filters.enumeratorId),
         );
       }
 
       if (filters.mapStatus) {
         filterConditions.push(
-          eq(gadhawaAggregateBuilding.map_status, filters.mapStatus),
+          eq(lungriAggregateBuilding.map_status, filters.mapStatus),
         );
       }
 
       if (filters.buildingOwnership) {
         filterConditions.push(
           eq(
-            gadhawaAggregateBuilding.building_ownership_status,
+            lungriAggregateBuilding.building_ownership_status,
             filters.buildingOwnership,
           ),
         );
@@ -558,18 +558,18 @@ export const getAggregatedBuildingData = publicProcedure
 
       if (filters.buildingBase) {
         filterConditions.push(
-          eq(gadhawaAggregateBuilding.building_base, filters.buildingBase),
+          eq(lungriAggregateBuilding.building_base, filters.buildingBase),
         );
       }
 
       if (filters.hasHouseholds !== undefined) {
         if (filters.hasHouseholds) {
           filterConditions.push(
-            sql`jsonb_array_length(${gadhawaAggregateBuilding.households}) > 0`,
+            sql`jsonb_array_length(${lungriAggregateBuilding.households}) > 0`,
           );
         } else {
           filterConditions.push(
-            sql`(${gadhawaAggregateBuilding.households} IS NULL OR jsonb_array_length(${gadhawaAggregateBuilding.households}) = 0)`,
+            sql`(${lungriAggregateBuilding.households} IS NULL OR jsonb_array_length(${lungriAggregateBuilding.households}) = 0)`,
           );
         }
       }
@@ -577,27 +577,27 @@ export const getAggregatedBuildingData = publicProcedure
       if (filters.hasBusinesses !== undefined) {
         if (filters.hasBusinesses) {
           filterConditions.push(
-            sql`jsonb_array_length(${gadhawaAggregateBuilding.businesses}) > 0`,
+            sql`jsonb_array_length(${lungriAggregateBuilding.businesses}) > 0`,
           );
         } else {
           filterConditions.push(
-            sql`(${gadhawaAggregateBuilding.businesses} IS NULL OR jsonb_array_length(${gadhawaAggregateBuilding.businesses}) = 0)`,
+            sql`(${lungriAggregateBuilding.businesses} IS NULL OR jsonb_array_length(${lungriAggregateBuilding.businesses}) = 0)`,
           );
         }
       }
 
       if (filters.fromDate && filters.toDate) {
         filterConditions.push(
-          sql`${gadhawaAggregateBuilding.building_survey_date} BETWEEN ${filters.fromDate}::timestamp AND ${filters.toDate}::timestamp`,
+          sql`${lungriAggregateBuilding.building_survey_date} BETWEEN ${filters.fromDate}::timestamp AND ${filters.toDate}::timestamp`,
         );
       }
 
       if (filters.searchTerm) {
         filterConditions.push(
           sql`(
-            ${ilike(gadhawaAggregateBuilding.locality, `%${filters.searchTerm}%`)} OR
-            ${ilike(gadhawaAggregateBuilding.building_owner_name, `%${filters.searchTerm}%`)} OR
-            ${ilike(gadhawaAggregateBuilding.enumerator_name, `%${filters.searchTerm}%`)}
+            ${ilike(lungriAggregateBuilding.locality, `%${filters.searchTerm}%`)} OR
+            ${ilike(lungriAggregateBuilding.building_owner_name, `%${filters.searchTerm}%`)} OR
+            ${ilike(lungriAggregateBuilding.enumerator_name, `%${filters.searchTerm}%`)}
           )`,
         );
       }
@@ -611,7 +611,7 @@ export const getAggregatedBuildingData = publicProcedure
     // Query the buildings with all their nested data
     const buildingsWithNestedData = await ctx.db
       .select()
-      .from(gadhawaAggregateBuilding)
+      .from(lungriAggregateBuilding)
       .where(conditions)
       .orderBy(sql`${sql.identifier(sortBy)} ${sql.raw(sortOrder)}`)
       .limit(limit)
@@ -620,7 +620,7 @@ export const getAggregatedBuildingData = publicProcedure
     // Get the total count for pagination
     const totalCount = await ctx.db
       .select({ count: sql<number>`count(*)` })
-      .from(gadhawaAggregateBuilding)
+      .from(lungriAggregateBuilding)
       .where(conditions)
       .then((result) => result[0]?.count || 0);
 

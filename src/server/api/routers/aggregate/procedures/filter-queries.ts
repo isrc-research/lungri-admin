@@ -1,15 +1,15 @@
 import { publicProcedure } from "@/server/api/trpc";
 import { sql } from "drizzle-orm";
-import { gadhawaAggregateBuilding } from "@/server/db/schema/aggregate-building";
+import { lungriAggregateBuilding } from "@/server/db/schema/aggregate-building";
 
 export const getDistinctWardNumbers = publicProcedure.query(async ({ ctx }) => {
   const results = await ctx.db
     .selectDistinct({
-      wardNumber: gadhawaAggregateBuilding.ward_number,
+      wardNumber: lungriAggregateBuilding.ward_number,
     })
-    .from(gadhawaAggregateBuilding)
-    .where(sql`${gadhawaAggregateBuilding.ward_number} IS NOT NULL`)
-    .orderBy(gadhawaAggregateBuilding.ward_number);
+    .from(lungriAggregateBuilding)
+    .where(sql`${lungriAggregateBuilding.ward_number} IS NOT NULL`)
+    .orderBy(lungriAggregateBuilding.ward_number);
 
   return results
     .filter(({ wardNumber }) => wardNumber !== null)
@@ -22,11 +22,11 @@ export const getDistinctWardNumbers = publicProcedure.query(async ({ ctx }) => {
 export const getDistinctAreaCodes = publicProcedure.query(async ({ ctx }) => {
   const results = await ctx.db
     .selectDistinct({
-      areaCode: gadhawaAggregateBuilding.area_code,
+      areaCode: lungriAggregateBuilding.area_code,
     })
-    .from(gadhawaAggregateBuilding)
-    .where(sql`${gadhawaAggregateBuilding.area_code} IS NOT NULL`)
-    .orderBy(gadhawaAggregateBuilding.area_code);
+    .from(lungriAggregateBuilding)
+    .where(sql`${lungriAggregateBuilding.area_code} IS NOT NULL`)
+    .orderBy(lungriAggregateBuilding.area_code);
 
   return results
     .filter(({ areaCode }) => areaCode !== null)
@@ -39,12 +39,12 @@ export const getDistinctAreaCodes = publicProcedure.query(async ({ ctx }) => {
 export const getDistinctEnumerators = publicProcedure.query(async ({ ctx }) => {
   const results = await ctx.db
     .selectDistinct({
-      enumeratorId: gadhawaAggregateBuilding.enumerator_id,
-      enumeratorName: gadhawaAggregateBuilding.enumerator_name,
+      enumeratorId: lungriAggregateBuilding.enumerator_id,
+      enumeratorName: lungriAggregateBuilding.enumerator_name,
     })
-    .from(gadhawaAggregateBuilding)
-    .where(sql`${gadhawaAggregateBuilding.enumerator_id} IS NOT NULL`)
-    .orderBy(gadhawaAggregateBuilding.enumerator_name);
+    .from(lungriAggregateBuilding)
+    .where(sql`${lungriAggregateBuilding.enumerator_id} IS NOT NULL`)
+    .orderBy(lungriAggregateBuilding.enumerator_name);
 
   return results
     .filter(({ enumeratorId }) => enumeratorId !== null)
@@ -57,11 +57,11 @@ export const getDistinctEnumerators = publicProcedure.query(async ({ ctx }) => {
 export const getDistinctMapStatuses = publicProcedure.query(async ({ ctx }) => {
   const results = await ctx.db
     .selectDistinct({
-      mapStatus: gadhawaAggregateBuilding.map_status,
+      mapStatus: lungriAggregateBuilding.map_status,
     })
-    .from(gadhawaAggregateBuilding)
-    .where(sql`${gadhawaAggregateBuilding.map_status} IS NOT NULL`)
-    .orderBy(gadhawaAggregateBuilding.map_status);
+    .from(lungriAggregateBuilding)
+    .where(sql`${lungriAggregateBuilding.map_status} IS NOT NULL`)
+    .orderBy(lungriAggregateBuilding.map_status);
 
   return results
     .filter(({ mapStatus }) => mapStatus !== null)
@@ -75,13 +75,13 @@ export const getDistinctBuildingOwnerships = publicProcedure.query(
   async ({ ctx }) => {
     const results = await ctx.db
       .selectDistinct({
-        buildingOwnership: gadhawaAggregateBuilding.building_ownership_status,
+        buildingOwnership: lungriAggregateBuilding.building_ownership_status,
       })
-      .from(gadhawaAggregateBuilding)
+      .from(lungriAggregateBuilding)
       .where(
-        sql`${gadhawaAggregateBuilding.building_ownership_status} IS NOT NULL`,
+        sql`${lungriAggregateBuilding.building_ownership_status} IS NOT NULL`,
       )
-      .orderBy(gadhawaAggregateBuilding.building_ownership_status);
+      .orderBy(lungriAggregateBuilding.building_ownership_status);
 
     return results
       .filter(({ buildingOwnership }) => buildingOwnership !== null)
@@ -96,11 +96,11 @@ export const getDistinctBuildingBases = publicProcedure.query(
   async ({ ctx }) => {
     const results = await ctx.db
       .selectDistinct({
-        buildingBase: gadhawaAggregateBuilding.building_base,
+        buildingBase: lungriAggregateBuilding.building_base,
       })
-      .from(gadhawaAggregateBuilding)
-      .where(sql`${gadhawaAggregateBuilding.building_base} IS NOT NULL`)
-      .orderBy(gadhawaAggregateBuilding.building_base);
+      .from(lungriAggregateBuilding)
+      .where(sql`${lungriAggregateBuilding.building_base} IS NOT NULL`)
+      .orderBy(lungriAggregateBuilding.building_base);
 
     return results
       .filter(({ buildingBase }) => buildingBase !== null)
