@@ -52,7 +52,9 @@ export const getAgeDistribution = publicProcedure
       END
     `;
 
-    const wardFilter = input.wardNumber ? sql`AND ward_no = ${input.wardNumber}` : sql``;
+    const wardFilter = input.wardNumber
+      ? sql`AND ward_no = ${input.wardNumber}`
+      : sql``;
 
     return await ctx.db.execute(sql`
       SELECT ${sql.raw(ageRanges)} as age_group, COUNT(*)::int as count
@@ -76,9 +78,9 @@ export const getCasteDistribution = publicProcedure
         input.wardNumber
           ? and(
               sql`${lungriIndividual.caste} IS NOT NULL`,
-              eq(lungriIndividual.wardNo, input.wardNumber)
+              eq(lungriIndividual.wardNo, input.wardNumber),
             )
-          : sql`${lungriIndividual.caste} IS NOT NULL`
+          : sql`${lungriIndividual.caste} IS NOT NULL`,
       );
 
     return await query.groupBy(lungriIndividual.caste);
@@ -97,9 +99,9 @@ export const getAncestorLanguageDistribution = publicProcedure
         input.wardNumber
           ? and(
               sql`${lungriIndividual.ancestorLanguage} IS NOT NULL`,
-              eq(lungriIndividual.wardNo, input.wardNumber)
+              eq(lungriIndividual.wardNo, input.wardNumber),
             )
-          : sql`${lungriIndividual.ancestorLanguage} IS NOT NULL`
+          : sql`${lungriIndividual.ancestorLanguage} IS NOT NULL`,
       );
 
     return await query.groupBy(lungriIndividual.ancestorLanguage);
@@ -118,9 +120,9 @@ export const getMotherTongueDistribution = publicProcedure
         input.wardNumber
           ? and(
               sql`${lungriIndividual.primaryMotherTongue} IS NOT NULL`,
-              eq(lungriIndividual.wardNo, input.wardNumber)
+              eq(lungriIndividual.wardNo, input.wardNumber),
             )
-          : sql`${lungriIndividual.primaryMotherTongue} IS NOT NULL`
+          : sql`${lungriIndividual.primaryMotherTongue} IS NOT NULL`,
       );
 
     return await query.groupBy(lungriIndividual.primaryMotherTongue);
@@ -139,9 +141,9 @@ export const getReligionDistribution = publicProcedure
         input.wardNumber
           ? and(
               sql`${lungriIndividual.religion} IS NOT NULL`,
-              eq(lungriIndividual.wardNo, input.wardNumber)
+              eq(lungriIndividual.wardNo, input.wardNumber),
             )
-          : sql`${lungriIndividual.religion} IS NOT NULL`
+          : sql`${lungriIndividual.religion} IS NOT NULL`,
       );
 
     return await query.groupBy(lungriIndividual.religion);
@@ -160,9 +162,9 @@ export const getMaritalStatusDistribution = publicProcedure
         input.wardNumber
           ? and(
               sql`${lungriIndividual.maritalStatus} IS NOT NULL`,
-              eq(lungriIndividual.wardNo, input.wardNumber)
+              eq(lungriIndividual.wardNo, input.wardNumber),
             )
-          : sql`${lungriIndividual.maritalStatus} IS NOT NULL`
+          : sql`${lungriIndividual.maritalStatus} IS NOT NULL`,
       );
 
     return await query.groupBy(lungriIndividual.maritalStatus);
@@ -180,7 +182,9 @@ export const getMarriageAgeDistribution = publicProcedure
       END
     `;
 
-    const wardFilter = input.wardNumber ? sql`AND ward_no = ${input.wardNumber}` : sql``;
+    const wardFilter = input.wardNumber
+      ? sql`AND ward_no = ${input.wardNumber}`
+      : sql``;
 
     return await ctx.db.execute(sql`
       SELECT ${sql.raw(ageRanges)} as age_group, COUNT(*)::int as count
@@ -204,9 +208,9 @@ export const getDisabilityDistribution = publicProcedure
         input.wardNumber
           ? and(
               sql`${lungriIndividual.isDisabled} IS NOT NULL`,
-              eq(lungriIndividual.wardNo, input.wardNumber)
+              eq(lungriIndividual.wardNo, input.wardNumber),
             )
-          : sql`${lungriIndividual.isDisabled} IS NOT NULL`
+          : sql`${lungriIndividual.isDisabled} IS NOT NULL`,
       );
 
     return await query.groupBy(lungriIndividual.isDisabled);
@@ -218,7 +222,7 @@ export const getSubmissionStats = publicProcedure
       startDate: z.date().optional(),
       endDate: z.date().optional(),
       wardNumber: z.number().optional(),
-    })
+    }),
   )
   .query(async ({ ctx, input }) => {
     const { startDate, endDate, wardNumber } = input;
@@ -232,8 +236,8 @@ export const getSubmissionStats = publicProcedure
       query.where(
         and(
           sql`${surveyData.created_at} >= ${startDate}`,
-          sql`${surveyData.created_at} <= ${endDate}`
-        )
+          sql`${surveyData.created_at} <= ${endDate}`,
+        ),
       );
     }
 
@@ -264,7 +268,7 @@ export const getEnumeratorStats = publicProcedure.query(async ({ ctx }) => {
       active: sql<number>`count(case when ${users.isActive} = true then 1 end)::int`,
     })
     .from(users)
-    .where(eq(users.role, 'enumerator'));
+    .where(eq(users.role, "enumerator"));
 
   return {
     total: Number(stats.total),
@@ -276,7 +280,7 @@ export const getWardStats = publicProcedure
   .input(
     z.object({
       wardNumber: z.number().optional(),
-    })
+    }),
   )
   .query(async ({ ctx, input }) => {
     const query = ctx.db
@@ -294,7 +298,7 @@ export const getWardStats = publicProcedure
     }
 
     const results = await query;
-    return results.map(row => ({
+    return results.map((row) => ({
       ...row,
       totalAreas: Number(row.totalAreas),
       completedAreas: Number(row.completedAreas),

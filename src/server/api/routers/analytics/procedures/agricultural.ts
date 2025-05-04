@@ -104,7 +104,7 @@ export const getAnimalProductStats = publicProcedure
 
     return await query.groupBy(
       lungriAnimalProduct.animalProductName,
-      lungriAnimalProduct.animalProductUnit
+      lungriAnimalProduct.animalProductUnit,
     );
   });
 
