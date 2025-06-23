@@ -20,7 +20,11 @@ const nepaliDigits: Record<string, string> = {
  * @returns String with Nepali digits
  */
 export function toNepaliDigits(value: number | string): string {
-  const stringValue = value.toString();
+  if (value === null || value === undefined) return "";
+  const stringValue = typeof value === "number" || typeof value === "string"
+    ? value.toString()
+    : "";
+  if (!stringValue) return "";
   return stringValue.replace(/[0-9]/g, (match) => nepaliDigits[match] || match);
 }
 
