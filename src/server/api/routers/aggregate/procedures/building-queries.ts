@@ -517,7 +517,6 @@ export const getAggregatedBuildingData = publicProcedure
   .input(buildingQuerySchema)
   .query(async ({ ctx, input }) => {
     const { limit, offset, sortBy, sortOrder, filters } = input;
-
     // Apply the same filtering logic as in getAllBuildingsInfinite
     let conditions = sql`TRUE`;
     if (filters) {
@@ -616,6 +615,8 @@ export const getAggregatedBuildingData = publicProcedure
       .orderBy(sql`${sql.identifier(sortBy)} ${sql.raw(sortOrder)}`)
       .limit(limit)
       .offset(offset);
+
+
 
     // Get the total count for pagination
     const totalCount = await ctx.db

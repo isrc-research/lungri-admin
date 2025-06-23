@@ -26,7 +26,7 @@ export function AggregateTableView() {
       },
     );
 
-  // Get buildings data
+
   const buildings = buildingsData?.data ?? [];
   const totalItems = buildingsData?.pagination?.total || 0;
   const totalPages = Math.ceil((totalItems || 0) / pagination.limit);
